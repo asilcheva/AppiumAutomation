@@ -88,6 +88,27 @@ public class FirstTest {
         }
     }
 
+
+
+    private boolean waitForElementNotPresent(By by, String errorMessage, long timeout) {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, timeout);
+        webDriverWait.withMessage(errorMessage);
+        return webDriverWait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    }
+
+
+
+    private WebElement waitForElementPresentAndSandKeys(By by, String value, String errorMessage, long timeout) {
+        WebElement resultElement = waitForElementPresent(by, errorMessage, timeout);
+        resultElement.sendKeys(value);
+        return resultElement;
+    }
+
+    private WebElement waitForElementAndClear(By by, String errorMassage, long timeout) {
+        WebElement element = waitForElementPresent(by, errorMassage, timeout);
+        element.clear();
+        return element;
+    }
     @Test
     public void testElementHasText() {
         waitForElementPresentAndClick(By.id("org.wikipedia:id/fragment_onboarding_skip_button"), "Can't find Skip button", 10);
@@ -101,39 +122,14 @@ public class FirstTest {
         String actualText = element.getAttribute("text");
         return actualText.equals(expectedText);
     }
-
-    private boolean waitForElementNotPresent(By by, String errorMessage, long timeout) {
-        WebDriverWait webDriverWait = new WebDriverWait(driver, timeout);
-        webDriverWait.withMessage(errorMessage);
-        return webDriverWait.until(ExpectedConditions.invisibilityOfElementLocated(by));
-    }
-
     private WebElement waitForElementPresentAndClick(By by, String errorMessage, long timeout) {
         WebElement resultElement = waitForElementPresent(by, errorMessage, timeout);
         resultElement.click();
         return resultElement;
     }
-
-    private WebElement waitForElementPresentAndSandKeys(By by, String value, String errorMessage, long timeout) {
-        WebElement resultElement = waitForElementPresent(by, errorMessage, timeout);
-        resultElement.sendKeys(value);
-        return resultElement;
-    }
-
     private WebElement waitForElementPresent(By by, String errorMessage, long timeout) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, timeout);
         webDriverWait.withMessage(errorMessage);
         return webDriverWait.until(ExpectedConditions.presenceOfElementLocated(by));
-    }
-    private List<WebElement> waitForListElementsPresent(By by, String errorMessage, long timeout) {
-        WebDriverWait webDriverWait = new WebDriverWait(driver, timeout);
-        webDriverWait.withMessage(errorMessage);
-         return webDriverWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(by, 1));
-    }
-
-    private WebElement waitForElementAndClear(By by, String errorMassage, long timeout) {
-        WebElement element = waitForElementPresent(by, errorMassage, timeout);
-        element.clear();
-        return element;
     }
 }
