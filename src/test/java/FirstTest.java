@@ -48,14 +48,37 @@ public class FirstTest {
         String actualText = element.getAttribute("text");
         return actualText.equals(expectedText);
     }
-    private WebElement waitForElementPresentAndClick(By by, String errorMessage, long timeout) {
-        WebElement resultElement = waitForElementPresent(by, errorMessage, timeout);
-        resultElement.click();
-        return resultElement;
-    }
+
     private WebElement waitForElementPresent(By by, String errorMessage, long timeout) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, timeout);
         webDriverWait.withMessage(errorMessage);
         return webDriverWait.until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+    @Test
+    public void testSearchCancellation() {
+        waitForElementPresentAndClick(By.id("org.wikipedia:id/fragment_onboarding_skip_button"), "Can't find Skip button", 10);
+        waitForElementPresentAndClick(By.id("org.wikipedia:id/search_container"), "Can't find Search Wikipedia input", 10);
+        waitForElementPresentAndSandKeys(By.id("org.wikipedia:id/search_src_text"), "Java", "Can't find search input", 10);
+        List<WebElement> elements = waitForListElementsPresent(By.id("org.wikipedia:id/page_list_item_title"), "Can't find any title", 10);
+        Assert.assertFalse(elements.isEmpty());
+        waitForElementPresentAndClick(By.id("org.wikipedia:id/search_close_btn"), "Can't find X button", 10);
+        waitForElementNotPresent(By.id("org.wikipedia:id/search_close_btn"), "X button is still present", 10);
+        boolean presence = waitForElementNotPresent(By.id("org.wikipedia:id/page_list_item_title"), "Some title is still found", 10);
+        Assert.assertTrue(presence);
+    }
+    private boolean waitForElementNotPresent(By by, String errorMessage, long timeout) {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, timeout);
+        webDriverWait.withMessage(errorMessage);
+        return webDriverWait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    }
+    private WebElement waitForElementPresentAndSandKeys(By by, String value, String errorMessage, long timeout) {
+        WebElement resultElement = waitForElementPresent(by, errorMessage, timeout);
+        resultElement.sendKeys(value);
+        return resultElement;
+    }
+    private WebElement waitForElementPresentAndClick(By by, String errorMessage, long timeout) {
+        WebElement resultElement = waitForElementPresent(by, errorMessage, timeout);
+        resultElement.click();
+        return resultElement;
     }
 }
