@@ -226,4 +226,19 @@ public class FirstTest {
         driver.runAppInBackground(Duration.ofMillis(50));
         Assert.assertTrue(element.isDisplayed());
     }
+
+    @Test
+    public void testElementPresent() {
+        String title = "Java (programming language)";
+        By element = By.xpath("//android.view.View[@text='" + title + "']");
+        waitForElementPresentAndClick(By.id("org.wikipedia:id/fragment_onboarding_skip_button"), "Can't find Skip button", 10);
+        waitForElementPresentAndClick(By.id("org.wikipedia:id/search_container"), "Can't find Search Wikipedia input", 10);
+        waitForElementPresentAndSandKeys(By.id("org.wikipedia:id/search_src_text"), "Java", "Can't find search input", 10);
+        waitForElementPresentAndClick(By.xpath("//*[@resource-id ='org.wikipedia:id/page_list_item_title'][@text='" + title + "']"), "Can't find search input Java", 15);
+        Assert.assertTrue("Can't find the title.", assertElementPresent(element));
     }
+
+    private boolean assertElementPresent(By by) {
+        return driver.findElement(by).isDisplayed();
+    }
+}
