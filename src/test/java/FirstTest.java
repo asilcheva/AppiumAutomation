@@ -35,6 +35,7 @@ public class FirstTest {
         desiredCapabilities.setCapability("appActivity", ".main.MainActivity");
         desiredCapabilities.setCapability("app", "C:\\Anutka\\ProjectsAutotest\\javaAppiumAutomation\\wikipedia.apk");
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), desiredCapabilities);
+        driver.rotate(ScreenOrientation.PORTRAIT);
     }
 
     @After
