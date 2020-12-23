@@ -125,21 +125,6 @@ public class FirstTest {
         }
     }
 
-    private void swipeElementToLeft(By by, String errorMessage, int timeout) {
-        WebElement element = waitForElementPresent(by, errorMessage, timeout);
-        int rightX = element.getLocation().getX();
-        int highY = element.getLocation().getY();
-        int leftX = rightX + element.getSize().getWidth();
-        int lowY = highY + element.getSize().getHeight();
-        int mediumY = (highY + lowY) / 2;
-        TouchAction action = new TouchAction(driver);
-        action.press(PointOption.point(leftX, mediumY))
-                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
-                .moveTo(PointOption.point(rightX, mediumY))
-                .release()
-                .perform();
-    }
-
     @Test
     public void saveFirstArticleToMyList() {
         String value = "Learning programming";
@@ -240,5 +225,51 @@ public class FirstTest {
 
     private boolean assertElementPresent(By by) {
         return driver.findElement(by).isDisplayed();
+    }
+
+    @Test
+    public void testSave2Articles() {
+        String listName = "Learning programming";
+        String firstArticle = "Java (programming language)";
+        String secondArticle = "Java version history";
+        By saveButton = By.id("org.wikipedia:id/article_menu_bookmark");
+        By addToListButton = By.xpath("//android.widget.Button[@text='ADD TO LIST']");
+        waitForElementPresentAndClick(By.id("org.wikipedia:id/fragment_onboarding_skip_button"), "Can't find Skip button", 10);
+        waitForElementPresentAndClick(By.id("org.wikipedia:id/search_container"), "Can't find Search Wikipedia input", 10);
+        waitForElementPresentAndSandKeys(By.id("org.wikipedia:id/search_src_text"), "Java", "Can't find search input", 10);
+        waitForElementPresentAndClick(By.xpath("//*[@resource-id ='org.wikipedia:id/page_list_item_title'][@text='" + firstArticle + "']"), "Can't find search input Java", 15);
+        waitForElementPresentAndClick(saveButton, "Can't find article menu button", 10);
+        waitForElementPresentAndClick(addToListButton, "Can't find Add to list", 5);
+        waitForElementPresentAndClick(By.xpath("//android.widget.TextView[@text='Create new']"), "Can't find Create new link", 10);
+        waitForElementPresentAndSandKeys(By.id("org.wikipedia:id/text_input"), listName, "Can't find text input", 5);
+        waitForElementPresentAndClick(By.id("android:id/button1"), "Can't find OK", 5);
+        waitForElementPresentAndClick(By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"), "Can't find Back button", 5);
+        waitForElementPresentAndClick(By.xpath("//*[@resource-id ='org.wikipedia:id/page_list_item_title'][@text='" + secondArticle + "']"), "Can't find Java version", 15);
+        waitForElementPresentAndClick(saveButton, "Can't find article menu button", 10);
+        waitForElementPresentAndClick(addToListButton, "Can't find Add to list", 5);
+        waitForElementPresentAndClick(By.xpath("//android.widget.TextView[@text='" + listName + "']"), "Can't find the List", 5);
+        waitForElementPresentAndClick(By.xpath("//android.widget.Button[@text='VIEW LIST']"), "Can't find Back button", 5);
+       // waitForElementPresentAndClick(By.xpath("//android.widget.TextView[@text='" + listName + "']"), "Can't find necessary list", 5);
+        swipeElementToLeft(By.xpath("//android.widget.TextView[@text='" + firstArticle + "']"), "Can't find an article", 15);
+        waitForElementNotPresent(By.xpath("//android.widget.TextView[@text='" + firstArticle + "']"), "Element wasn't deleted", 10);
+        WebElement articleInList = waitForElementPresent(By.xpath("//android.widget.TextView[@text='" + secondArticle + "']"), "Element wasn't deleted", 10);
+        String articleInListName = articleInList.getAttribute("text");
+        articleInList.click();
+        String articleOpenedName = waitForElementPresent(By.xpath("//android.view.View[1]/android.view.View[1]/android.view.View[1]"), "Can't find an article", 5).getAttribute("text");
+        Assert.assertEquals("Title name is different", articleOpenedName, articleInListName);
+    }
+    private void swipeElementToLeft(By by, String errorMessage, int timeout) {
+        WebElement element = waitForElementPresent(by, errorMessage, timeout);
+        int rightX = element.getLocation().getX();
+        int highY = element.getLocation().getY();
+        int leftX = rightX + element.getSize().getWidth();
+        int lowY = highY + element.getSize().getHeight();
+        int mediumY = (highY + lowY) / 2;
+        TouchAction action = new TouchAction(driver);
+        action.press(PointOption.point(leftX, mediumY))
+                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(400)))
+                .moveTo(PointOption.point(rightX, mediumY))
+                .release()
+                .perform();
     }
 }
