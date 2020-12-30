@@ -18,6 +18,16 @@ public class ArticleTests extends CoreTestCase {
         assertEquals("Appium", article);
     }
 
+    @Test
+    public void testAssertTitle() {
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject.waitForSkipButtonAndClick();
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Appium");
+        searchPageObject.clickByArticleWithSubstring("Appium");
+        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        assertTrue("Article title wasn't found!", articlePageObject.assertTitlePresent());
+    }
 
     @Test
     public void testSwipeArticle() {

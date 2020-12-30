@@ -36,7 +36,18 @@ public class SearchTests extends CoreTestCase {
         int results = searchPageObject.waitAndGetAmountOfFoundArticles();
         assertTrue(results > 0);
     }
-
+    @Test
+    public void testSearchCancellation() {
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject.waitForSkipButtonAndClick();
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Appium");
+        int firstResults = searchPageObject.waitAndGetAmountOfFoundArticles();
+        assertTrue(firstResults > 0);
+        searchPageObject.clickCancelButton();
+        int lastResults = searchPageObject.getAmountOfFoundArticles();
+        assertTrue(lastResults==0);
+    }
 
     @Test
     public void testAmountOfEmptySearch() {
