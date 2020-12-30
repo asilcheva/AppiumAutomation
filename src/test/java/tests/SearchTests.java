@@ -13,6 +13,16 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.typeSearchLine("Appium");
         searchPageObject.waitForSearchResult("Appium");
     }
+    @Test
+    public void testElementsHaveTitleAndDescription() {
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject.waitForSkipButtonAndClick();
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Java");
+        searchPageObject.waitForElementByTitleAndDescription("Java", "Indonesian island");
+        searchPageObject.waitForElementByTitleAndDescription("JavaScript", "High-level programming language");
+        searchPageObject.waitForElementByTitleAndDescription("Java (programming language)", "Object-oriented programming language");
+    }
 
     @Test
     public void testCancelButton() {

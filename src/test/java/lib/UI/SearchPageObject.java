@@ -11,12 +11,16 @@ public class SearchPageObject extends MainPageObject {
     private final static String SEARCH_INIT_ELEMENT = "org.wikipedia:id/search_container";
     private final static String SEARCH_INPUT = "org.wikipedia:id/search_src_text";
     private final static String SEARCH_RESULT = "//*[@resource-id ='org.wikipedia:id/page_list_item_title'][@text='{substring}']";
+    private final static String SEARCH_RESULT_WITH_DESCRIPTION = "//android.view.ViewGroup[./android.widget.TextView[@resource-id='org.wikipedia:id/page_list_item_title' and @text='{TITLE}'] and ./android.widget.TextView[@resource-id='org.wikipedia:id/page_list_item_description' and @text='{DESCRIPTION}']]";
     private final static String CANCEL_BUTTON = "org.wikipedia:id/search_close_btn";
     private final static String ALL_ARTICLES= "org.wikipedia:id/page_list_item_title";
     private final static String NO_RESULTS=  "//android.widget.TextView[@text='No results']";
     /*TEMPLATES METHODS*/
     private static String getResultSearchElement(String substring) {
         return SEARCH_RESULT.replace("{substring}", substring);
+    }
+    private static String getResultSearchElementWithDescription(String title, String description) {
+        return SEARCH_RESULT_WITH_DESCRIPTION.replace("{TITLE}", title).replace("{DESCRIPTION}", description);
     }
     /*TEMPLATES METHODS*/
     public void initSearchInput() {
@@ -31,6 +35,10 @@ public class SearchPageObject extends MainPageObject {
     public void waitForSearchResult(String substring) {
         String searchResultXpath = SearchPageObject.getResultSearchElement(substring);
         this.waitForElementPresent(By.xpath(searchResultXpath), "Can't find search result", 10);
+    }
+    public void waitForElementByTitleAndDescription(String title, String description) {
+            String searchResultXpath = SearchPageObject.getResultSearchElementWithDescription(title, description);
+        this.waitForElementPresent(By.xpath(searchResultXpath), "Can't find search result with such title and description", 16);
     }
 
     public void waitForCancelButtonToAppear() {
