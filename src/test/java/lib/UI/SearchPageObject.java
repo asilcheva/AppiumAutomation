@@ -2,31 +2,30 @@ package lib.UI;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 public class SearchPageObject extends MainPageObject {
     public SearchPageObject(AppiumDriver driver) {
         super(driver);
     }
 
-    private final static String searchInitElement = "org.wikipedia:id/search_container";
-    private final static String searchInput = "org.wikipedia:id/search_src_text";
-    private final static String searchResult = "//*[@resource-id ='org.wikipedia:id/page_list_item_title'][@text='{substring}']";
-    private final static String CANCELBUTTON = "org.wikipedia:id/search_close_btn";
+    private final static String SEARCH_INIT_ELEMENT = "org.wikipedia:id/search_container";
+    private final static String SEARCH_INPUT = "org.wikipedia:id/search_src_text";
+    private final static String SEARCH_RESULT = "//*[@resource-id ='org.wikipedia:id/page_list_item_title'][@text='{substring}']";
+    private final static String CANCEL_BUTTON = "org.wikipedia:id/search_close_btn";
     private final static String ALL_ARTICLES= "org.wikipedia:id/page_list_item_title";
     private final static String NO_RESULTS=  "//android.widget.TextView[@text='No results']";
-
+    /*TEMPLATES METHODS*/
     private static String getResultSearchElement(String substring) {
-        return searchResult.replace("{substring}", substring);
+        return SEARCH_RESULT.replace("{substring}", substring);
     }
-
+    /*TEMPLATES METHODS*/
     public void initSearchInput() {
-        this.waitForElementPresentAndClick(By.id(searchInitElement), "Can't find Search input", 5);
-        this.waitForElementPresent(By.id(searchInitElement), "Can't find Search input", 5);
+        this.waitForElementPresentAndClick(By.id(SEARCH_INIT_ELEMENT), "Can't find Search input", 5);
+        this.waitForElementPresent(By.id(SEARCH_INIT_ELEMENT), "Can't find Search input", 5);
     }
 
     public void typeSearchLine(String searchLine) {
-        this.waitForElementPresentAndSandKeys(By.id(searchInput), searchLine, "Can't find search input", 5);
+        this.waitForElementPresentAndSandKeys(By.id(SEARCH_INPUT), searchLine, "Can't find search input", 5);
     }
 
     public void waitForSearchResult(String substring) {
@@ -35,15 +34,15 @@ public class SearchPageObject extends MainPageObject {
     }
 
     public void waitForCancelButtonToAppear() {
-        this.waitForElementPresent(By.id(CANCELBUTTON), "Can't find cancel button", 6);
+        this.waitForElementPresent(By.id(CANCEL_BUTTON), "Can't find cancel button", 6);
     }
 
     public boolean waitForCancelButtonToDisappear() {
-        return this.waitForElementNotPresent(By.id(CANCELBUTTON), "Cancel button is still present", 6);
+        return this.waitForElementNotPresent(By.id(CANCEL_BUTTON), "Cancel button is still present", 6);
     }
 
     public void clickCancelButton() {
-        this.waitForElementPresentAndClick(By.id(CANCELBUTTON), "Can't find cancel button", 5);
+        this.waitForElementPresentAndClick(By.id(CANCEL_BUTTON), "Can't find cancel button", 5);
     }
     public void clickByArticleWithSubstring(String substring) {
         String searchResultXpath = SearchPageObject.getResultSearchElement(substring);
