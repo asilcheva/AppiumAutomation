@@ -7,12 +7,12 @@ public class NavigationUI extends MainPageObject{
     public NavigationUI(AppiumDriver driver) {
         super(driver);
     }
-    private final static String MY_LISTS = "//android.widget.FrameLayout[@content-desc='My lists']";
-    private final static String VIEW_LISTS ="//android.widget.Button[@text='VIEW LIST']";
+    private final static String MY_LISTS = "xpath://android.widget.FrameLayout[@content-desc='My lists']";
+    private final static String VIEW_LISTS ="xpath://android.widget.Button[@text='VIEW LIST']";
     public void clickMyLists() {
-        this.waitForElementPresentAndClick(By.xpath(MY_LISTS), "Can't find My list", 5);
+        this.waitForElementPresentAndClick((MY_LISTS), "Can't find My list", 5);
     }
     public void clickViewLists(){
-        this.waitForElementPresentAndClick(By.xpath(VIEW_LISTS), "Can't find My list", 5);
+        this.waitForElementPresentAndClick((VIEW_LISTS), "Can't find My list", 5);
     }
 }
