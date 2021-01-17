@@ -8,14 +8,14 @@ public class SearchPageObject extends MainPageObject {
         super(driver);
     }
 
-    private final static String SEARCH_INIT_ELEMENT = "id:org.wikipedia:id/search_container";
-    private final static String SEARCH_INPUT = "id:org.wikipedia:id/search_src_text";
-    private final static String SEARCH_RESULT = "xpath://*[@resource-id ='org.wikipedia:id/page_list_item_title'][@text='{substring}']";
-    private final static String SEARCH_RESULT_WITH_DESCRIPTION = "xpath://android.view.ViewGroup[./android.widget.TextView[@resource-id='org.wikipedia:id/page_list_item_title' and @text='{TITLE}'] and ./android.widget.TextView[@resource-id='org.wikipedia:id/page_list_item_description' and @text='{DESCRIPTION}']]";
-    private final static String CANCEL_BUTTON = "id:org.wikipedia:id/search_close_btn";
-    private final static String ALL_ARTICLES= "id:org.wikipedia:id/page_list_item_title";
-    private final static String NO_RESULTS=  "xpath://android.widget.TextView[@text='No results']";
-    private final static String SKIP_BUTTON = "id:org.wikipedia:id/fragment_onboarding_skip_button";
+    protected static String SEARCH_INIT_ELEMENT;
+    protected static String SEARCH_INPUT;
+    protected static String SEARCH_RESULT;
+    protected static String SEARCH_RESULT_WITH_DESCRIPTION;
+    protected static String CANCEL_BUTTON;
+    protected static String ALL_ARTICLES;
+    protected static String NO_RESULTS;
+    protected static String SKIP_BUTTON;
     /*TEMPLATES METHODS*/
     private static String getResultSearchElement(String substring) {
         return SEARCH_RESULT.replace("{substring}", substring);
