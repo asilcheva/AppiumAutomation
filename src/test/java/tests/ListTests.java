@@ -52,15 +52,26 @@ public class ListTests extends CoreTestCase {
         searchPageObject.clickByArticleWithSubstring(firstArticle);
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         articlePageObject.waitForTitleElement();
-        articlePageObject.saveAndAddArticle();
         MyListsPageObject myListsPageObject = MyListsPageObjectFactory.get(driver);
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
+        if (Platform.getInstance().isAndroid()) {
+        articlePageObject.saveAndAddArticle();
         myListsPageObject.createListAndAddArticle(listName);
         articlePageObject.closeArticle();
         searchPageObject.clickByArticleWithSubstring(secondArticle);
         articlePageObject.saveAndAddArticle();
         myListsPageObject.addArticleToFolder(listName);
-        NavigationUI navigationUI = NavigationUIFactory.get(driver);
-        navigationUI.clickViewLists();
+        navigationUI.clickViewLists();}
+        else {
+            articlePageObject.addArticleToMySaved();
+            articlePageObject.clickClose();
+            articlePageObject.closeArticle();
+            searchPageObject.initSearchInput();
+            searchPageObject.clickByArticleWithSubstring(secondArticle);
+            articlePageObject.addArticleToMySaved();
+            articlePageObject.closeArticle();
+            navigationUI.clickSaved();
+        }
         myListsPageObject.swipeArticleToDelete(secondArticle);
         assertTrue(myListsPageObject.waitForArticleToDisAppear(secondArticle));
         assertTrue(myListsPageObject.waitForArticleToAppear(firstArticle).isDisplayed());
