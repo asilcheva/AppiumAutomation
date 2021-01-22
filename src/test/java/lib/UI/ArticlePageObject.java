@@ -1,17 +1,19 @@
 package lib.UI;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.seleniumhq.jetty9.servlet.listener.ELContextCleaner;
 
-public class ArticlePageObject extends MainPageObject{
-    private static final String TITLE = "xpath://android.view.View[1]/android.view.View[1]/android.view.View[1]";
-    private static final String FOOTER_ELEMENT = "xpath://*[@text='View article in browser']";
-    private static final String SAVE_BUTTON = "id:org.wikipedia:id/article_menu_bookmark";
-    private static final String ADD_TO_LIST_BUTTON = "xpath://android.widget.Button[@text='ADD TO LIST']";
-    private final static String FOLDER_NAME = "xpath://android.widget.TextView[@text='{FOLDER}']";
-    private static final String BACK= "xpath://*[@resource-id = 'org.wikipedia:id/page_toolbar']/android.widget.ImageButton";
-    private static final String CLOSE_BUTTON= "xpath://*[@resource-id ='org.wikipedia:id/search_toolbar']/android.widget.ImageButton";
+abstract public class ArticlePageObject extends MainPageObject{
+    protected String TITLE;
+    protected String FOOTER_ELEMENT;
+    protected String SAVE_BUTTON;
+    protected String ADD_TO_LIST_BUTTON;
+    protected String FOLDER_NAME;
+    protected String BACK;
+    protected String CLOSE_BUTTON;
     public ArticlePageObject(AppiumDriver driver) {
         super(driver);
     }
@@ -27,14 +29,19 @@ public class ArticlePageObject extends MainPageObject{
     }
 
     public String waitAndGetArticleTitle() {
-        return waitForTitleElement().getAttribute("text");
+        if (Platform.getInstance().isAndroid()) {
+            return waitForTitleElement().getAttribute("text");
+        }
+        else return waitForTitleElement().getAttribute("name");
     }
     public boolean assertTitlePresent() {
         return this.assertElementPresent((TITLE));
     }
 
     public void swipeToFooter() {
-        this.swipeUpToFindTheElement((FOOTER_ELEMENT), "Can't find footer", 5);
+        if (Platform.getInstance().isAndroid()){
+        this.swipeUpToFindTheElement((FOOTER_ELEMENT), "Can't find footer", 5);}
+        else {this.swipeUpTillElementAppear(FOOTER_ELEMENT, "Can't find footer", 40);}
     }
 
     public void saveAndAddArticle() {
@@ -42,9 +49,13 @@ public class ArticlePageObject extends MainPageObject{
         this.waitForElementPresentAndClick((ADD_TO_LIST_BUTTON), "", 5);
     }
     public void closeArticle() {
-        this.waitForElementPresentAndClick((BACK), "Can't find Back button", 10);
+        this.waitForElementPresentAndClick((BACK), "Can't find Back button", 5);
     }
-    public void closeSearchList() {
-        this.waitForElementPresentAndClick((CLOSE_BUTTON), "Can't find Close button", 10);
+    public void clickClose() {
+        this.waitForElementPresentAndClick((CLOSE_BUTTON), "Can't find Close button", 3);
+        this.waitForElementNotPresent(CLOSE_BUTTON, "Prompt is still here", 3);
+    }
+    public void addArticleToMySaved(){
+        this.waitForElementPresentAndClick(ADD_TO_LIST_BUTTON, "Can't find add to list button", 3);
     }
 }

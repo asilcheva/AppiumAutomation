@@ -3,18 +3,19 @@ package tests;
 import lib.CoreTestCase;
 import lib.UI.ArticlePageObject;
 import lib.UI.SearchPageObject;
+import lib.UI.factories.ArticlePageObjectFactory;
+import lib.UI.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class ChangeAppConditionTests extends CoreTestCase {
     @Test
     public void testChangeScreenOrientationOnSearchResult() {
         String searchText = "Java (programming language)";
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
-        searchPageObject.waitForSkipButtonAndClick();
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine(searchText);
         searchPageObject.clickByArticleWithSubstring(searchText);
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         String beforeAttribute = articlePageObject.waitAndGetArticleTitle();
         rotateScreenLandscape();
         String afterFirstRotationAttribute = articlePageObject.waitAndGetArticleTitle();
@@ -26,8 +27,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
     @Test
     public void testRunFromBackground() {
         String searchText = "Appium";
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
-        searchPageObject.waitForSkipButtonAndClick();
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine(searchText);
         searchPageObject.waitForSearchResult(searchText);

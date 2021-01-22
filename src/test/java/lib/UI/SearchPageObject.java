@@ -7,38 +7,37 @@ public class SearchPageObject extends MainPageObject {
     public SearchPageObject(AppiumDriver driver) {
         super(driver);
     }
-
-    protected static String SEARCH_INIT_ELEMENT;
-    protected static String SEARCH_INPUT;
-    protected static String SEARCH_RESULT;
-    protected static String SEARCH_RESULT_WITH_DESCRIPTION;
-    protected static String CANCEL_BUTTON;
-    protected static String ALL_ARTICLES;
-    protected static String NO_RESULTS;
-    protected static String SKIP_BUTTON;
+    protected String SEARCH_INIT_ELEMENT;
+    protected String SEARCH_INPUT;
+    protected String SEARCH_RESULT;
+    protected String SEARCH_RESULT_WITH_DESCRIPTION;
+    protected String CANCEL_BUTTON;
+    protected String ALL_ARTICLES;
+    protected String NO_RESULTS;
+    protected String SKIP_BUTTON;
     /*TEMPLATES METHODS*/
-    private static String getResultSearchElement(String substring) {
+    private String getResultSearchElement(String substring) {
         return SEARCH_RESULT.replace("{substring}", substring);
     }
-    private static String getResultSearchElementWithDescription(String title, String description) {
+    private String getResultSearchElementWithDescription(String title, String description) {
         return SEARCH_RESULT_WITH_DESCRIPTION.replace("{TITLE}", title).replace("{DESCRIPTION}", description);
     }
     /*TEMPLATES METHODS*/
     public void initSearchInput() {
-        this.waitForElementPresentAndClick((SEARCH_INIT_ELEMENT), "Can't find Search input", 5);
-        this.waitForElementPresent((SEARCH_INIT_ELEMENT), "Can't find Search input", 5);
+        this.waitForElementPresentAndClick((SEARCH_INIT_ELEMENT), "Can't find Search input", 10);
+        //this.waitForElementPresent((SEARCH_INIT_ELEMENT), "Can't find Search input", 5);
     }
 
     public void typeSearchLine(String searchLine) {
-        this.waitForElementPresentAndSandKeys((SEARCH_INPUT), searchLine, "Can't find search input", 5);
+        this.waitForElementPresentAndSandKeys((SEARCH_INPUT), searchLine, "Can't find search input", 10);
     }
 
     public void waitForSearchResult(String substring) {
-        String searchResultXpath = SearchPageObject.getResultSearchElement(substring);
+        String searchResultXpath = getResultSearchElement(substring);
         this.waitForElementPresent((searchResultXpath), "Can't find search result", 10);
     }
     public void waitForElementByTitleAndDescription(String title, String description) {
-            String searchResultXpath = SearchPageObject.getResultSearchElementWithDescription(title, description);
+            String searchResultXpath = getResultSearchElementWithDescription(title, description);
         this.waitForElementPresent((searchResultXpath), "Can't find search result with such title and description", 16);
     }
 
@@ -54,7 +53,7 @@ public class SearchPageObject extends MainPageObject {
         this.waitForElementPresentAndClick((CANCEL_BUTTON), "Can't find cancel button", 5);
     }
     public void clickByArticleWithSubstring(String substring) {
-        String searchResultXpath = SearchPageObject.getResultSearchElement(substring);
+        String searchResultXpath = getResultSearchElement(substring);
         this.waitForElementPresentAndClick((searchResultXpath), "Can't find search result", 10);
     }
     public int waitAndGetAmountOfFoundArticles() {
@@ -69,8 +68,5 @@ public class SearchPageObject extends MainPageObject {
     }
     public boolean assertNoResultOfSearch() {
         return this.assertElementPresent((NO_RESULTS));
-    }
-    public void waitForSkipButtonAndClick(){
-        this.waitForElementPresentAndClick((SKIP_BUTTON), "Can't find Skip button", 10);
     }
 }

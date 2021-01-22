@@ -1,20 +1,21 @@
 package lib.UI;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class MyListsPageObject extends MainPageObject {
+public abstract class MyListsPageObject extends MainPageObject {
     public MyListsPageObject(AppiumDriver driver) {
         super(driver);
     }
 
-    private final static String FOLDER_NAME = "xpath://android.widget.TextView[@text='{FOLDER}']";
-    private static final String FOLDER_INPUT = "id:org.wikipedia:id/text_input";
-    private static final String OK_BUTTON = "id:android:id/button1";
-    private static final String CREATE_NEW_BUTTON = "xpath://android.widget.TextView[@text='Create new']";
+    protected String FOLDER_NAME;
+    protected String FOLDER_INPUT;
+    protected String OK_BUTTON;
+    protected String CREATE_NEW_BUTTON;
 
     private String getFolderByName(String folderName) {
         return FOLDER_NAME.replace("{FOLDER}", folderName);
@@ -55,6 +56,9 @@ public class MyListsPageObject extends MainPageObject {
         waitForArticleToAppear(articleName);
         String articleXpath = getFolderByName(articleName);
         this.swipeElementToLeft((articleXpath), "Can't find an article", 5);
+   if (Platform.getInstance().isIOS()) {
+       this.clickElementToTheRightUpperCorner(articleXpath, "Can't find saved article");
+   }
     }
 
     public String getArticleInListTitle(String articleInListName) {

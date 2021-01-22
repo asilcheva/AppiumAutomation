@@ -17,6 +17,13 @@ public class Platform {
     public boolean isIOS() {
         return this.isPlatform(PLATFORM_IOS);
     }
+    private static Platform instance;
+    public static Platform getInstance(){
+        if (instance == null) {
+            instance= new Platform();
+        }
+        return instance;
+    }
     public AppiumDriver getDriver() throws Exception{
         URL url = new URL(APPIUM_URL);
         if (this.isAndroid()){
@@ -41,9 +48,10 @@ public class Platform {
     private DesiredCapabilities getIOSDesiredCapabilities() {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setCapability("platformName", "iOS");
-        desiredCapabilities.setCapability("deviceName", "iPhone 11 Pro Max");
-        desiredCapabilities.setCapability("platformVersion", "14.3");
-        desiredCapabilities.setCapability("app", "/Users/Desktop/anna/Wikipedia.app");
+        desiredCapabilities.setCapability("deviceName", "iPhone 11");
+        desiredCapabilities.setCapability("platformVersion", "13.7");
+        desiredCapabilities.setCapability("automationName", "XCUITest");
+        desiredCapabilities.setCapability("app", "/Users/dantilar/Documents/Wikipedia.app");
         return desiredCapabilities;
     }
     private String getPlatform() {

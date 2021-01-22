@@ -1,60 +1,68 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.UI.ArticlePageObject;
 import lib.UI.MyListsPageObject;
 import lib.UI.NavigationUI;
 import lib.UI.SearchPageObject;
+import lib.UI.factories.ArticlePageObjectFactory;
+import lib.UI.factories.MyListsPageObjectFactory;
+import lib.UI.factories.NavigationUIFactory;
+import lib.UI.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class ListTests extends CoreTestCase {
     @Test
     public void testSaveFirstArticleToMyList() {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
-        searchPageObject.waitForSkipButtonAndClick();
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Appium");
-        searchPageObject.clickByArticleWithSubstring("Appium");
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        searchPageObject.typeSearchLine("Java");
+        searchPageObject.clickByArticleWithSubstring("Java (programming language)");
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         articlePageObject.waitForTitleElement();
-        articlePageObject.saveAndAddArticle();
-        MyListsPageObject myListsPageObject = new MyListsPageObject(driver);
-        myListsPageObject.createListAndAddArticle("Learning programming");
-        articlePageObject.closeArticle();
-        articlePageObject.closeSearchList();
-        NavigationUI navigationUI = new NavigationUI(driver);
-        navigationUI.clickMyLists();
-        myListsPageObject.openFolderByName("Learning programming");
-        myListsPageObject.swipeArticleToDelete("Appium");
-        assertTrue(myListsPageObject.waitForArticleToDisAppear("Appium"));
+        MyListsPageObject myListsPageObject = MyListsPageObjectFactory.get(driver);
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
+        if (Platform.getInstance().isAndroid()) {
+            articlePageObject.saveAndAddArticle();
+            myListsPageObject.createListAndAddArticle("Learning programming");
+            articlePageObject.closeArticle();
+            articlePageObject.clickClose();
+            navigationUI.clickSaved();
+            myListsPageObject.openFolderByName("Learning programming");
+        }
+        else {
+            articlePageObject.addArticleToMySaved();
+            articlePageObject.clickClose();
+            articlePageObject.closeArticle();
+            navigationUI.clickSaved();
+            }
+        myListsPageObject.swipeArticleToDelete("Java (programming language)");
+        assertTrue(myListsPageObject.waitForArticleToDisAppear("Java (programming language)"));
     }
 
     @Test
-    public void testSave2Articles() {
+    public void testSaveTwoArticlesAndDeleteOne() {
         String listName = "Learning programming";
         String firstArticle = "Java (programming language)";
         String secondArticle = "Java version history";
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
-        searchPageObject.waitForSkipButtonAndClick();
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
         searchPageObject.clickByArticleWithSubstring(firstArticle);
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         articlePageObject.waitForTitleElement();
         articlePageObject.saveAndAddArticle();
-        MyListsPageObject myListsPageObject = new MyListsPageObject(driver);
+        MyListsPageObject myListsPageObject = MyListsPageObjectFactory.get(driver);
         myListsPageObject.createListAndAddArticle(listName);
         articlePageObject.closeArticle();
         searchPageObject.clickByArticleWithSubstring(secondArticle);
         articlePageObject.saveAndAddArticle();
         myListsPageObject.addArticleToFolder(listName);
-        NavigationUI navigationUI = new NavigationUI(driver);
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
         navigationUI.clickViewLists();
         myListsPageObject.swipeArticleToDelete(secondArticle);
         assertTrue(myListsPageObject.waitForArticleToDisAppear(secondArticle));
-        String articleInListName = myListsPageObject.getArticleInListTitle(firstArticle);
-        myListsPageObject.waitForArticleToAppearAndClick(firstArticle);
-        String articleOpenedName = articlePageObject.waitAndGetArticleTitle();
-        assertEquals("Title name is different", articleOpenedName, articleInListName);
+        assertTrue(myListsPageObject.waitForArticleToAppear(firstArticle).isDisplayed());
     }
 }
