@@ -32,9 +32,9 @@ public class SearchPageObject extends MainPageObject {
         this.waitForElementPresentAndSandKeys((SEARCH_INPUT), searchLine, "Can't find search input", 10);
     }
 
-    public void waitForSearchResult(String substring) {
+    public boolean waitForSearchResult(String substring) {
         String searchResultXpath = getResultSearchElement(substring);
-        this.waitForElementPresent((searchResultXpath), "Can't find search result", 10);
+        return this.waitForElementPresent((searchResultXpath), "Can't find search result", 10).isDisplayed();
     }
     public void waitForElementByTitleAndDescription(String title, String description) {
             String searchResultXpath = getResultSearchElementWithDescription(title, description);

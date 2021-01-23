@@ -34,14 +34,14 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
-    public void testAmountOfNotEmptySearch() {
-        String searchText = "Linkin Park discography";
+    public void testAmountOfSearch() {
+        String searchText = "Appium";
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine(searchText);
         searchPageObject.clickByArticleWithSubstring(searchText);
         int results = searchPageObject.waitAndGetAmountOfFoundArticles();
-        assertTrue(results > 0);
+        assertTrue("There's no results", results >0);
     }
     @Test
     public void testSearchCancellation() {
