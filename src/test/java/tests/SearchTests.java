@@ -36,12 +36,17 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testAmountOfSearch() {
         String searchText = "Appium";
+        String firstArticle = "Appium";
+        String secondArticle = "Appius Claudius Caecus";
+        String thirdArticle = "AppImage";
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine(searchText);
-        searchPageObject.clickByArticleWithSubstring(searchText);
         int results = searchPageObject.waitAndGetAmountOfFoundArticles();
-        assertTrue("There's no results", results >0);
+        assertTrue("There's less than 3 results", results >=3);
+        assertTrue("There's no such article"+firstArticle, searchPageObject.waitForSearchResult(firstArticle));
+        assertTrue("There's no such article"+secondArticle, searchPageObject.waitForSearchResult(secondArticle));
+        assertTrue("There's no such article"+thirdArticle, searchPageObject.waitForSearchResult(thirdArticle));
     }
     @Test
     public void testSearchCancellation() {

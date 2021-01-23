@@ -11,7 +11,7 @@ public class  IOSSearchPageObject extends SearchPageObject {
         SEARCH_RESULT = "xpath://XCUIElementTypeStaticText[contains(@name, '{substring}')]";
         SEARCH_RESULT_WITH_DESCRIPTION = "xpath://XCUIElementTypeStaticText";
         CANCEL_BUTTON = "id:Close";
-        ALL_ARTICLES = "id:org.wikipedia:id/page_list_item_title";
+        ALL_ARTICLES = "xpath://XCUIElementTypeOther/XCUIElementTypeStaticText";
         NO_RESULTS = "xpath://XCUIElementTypeStaticText[@name='No results found']";
         SKIP_BUTTON = "id:org.wikipedia:id/fragment_onboarding_skip_button";
     }
