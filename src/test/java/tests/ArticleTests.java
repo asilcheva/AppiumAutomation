@@ -12,8 +12,8 @@ public class ArticleTests extends CoreTestCase {
     public void testCompareArticleTitles() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Java");
-        searchPageObject.clickByArticleWithSubstring("Java");
+        searchPageObject.typeSearchLine("Appium");
+        searchPageObject.clickByArticleWithSubstring("Appium");
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         String article = articlePageObject.waitAndGetArticleTitle();
         assertEquals("Appium", article);
@@ -31,10 +31,10 @@ public class ArticleTests extends CoreTestCase {
 
     @Test
     public void testSwipeArticle() {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Java");
-        searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        searchPageObject.typeSearchLine("Appium");
+        searchPageObject.clickByArticleWithSubstring("Appium");
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         articlePageObject.waitForTitleElement();
         articlePageObject.swipeToFooter();

@@ -44,6 +44,12 @@ public class MainPageObject {
         return resultElement;
     }
 
+    public WebElement waitForElementPresentClearAndSandKeys(String locator, String value, String errorMessage, long timeout) {
+        WebElement resultElement = waitForElementPresent(locator, errorMessage, timeout);
+        resultElement.clear();
+        resultElement.sendKeys(value);
+        return resultElement;
+    }
     public WebElement waitForElementPresentAndClick(String locator, String errorMessage, long timeout) {
         WebElement resultElement = waitForElementPresent(locator, errorMessage, timeout);
         resultElement.click();
@@ -72,7 +78,7 @@ public class MainPageObject {
             if (alreadySwipes > maxSwipes) {
                 Assert.assertTrue(errorMessage, this.isElementLocatedOnTheScreen(locator));
             }
-            swipeUp(500);
+            swipeUp(5);
             ++alreadySwipes;
         }
 

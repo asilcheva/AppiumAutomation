@@ -6,6 +6,6 @@ import lib.UI.MyListsPageObject;
 public class IOSMyListsPageObject extends MyListsPageObject {
     public IOSMyListsPageObject(AppiumDriver driver){
         super(driver);
-        FOLDER_NAME = "xpath://XCUIElementTypeStaticText[@name='{FOLDER}']";
+        ARTICLE_NAME = "xpath://XCUIElementTypeStaticText[@name='{FOLDER}']";
     }
 }

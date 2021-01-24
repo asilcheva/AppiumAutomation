@@ -15,10 +15,13 @@ public abstract class MyListsPageObject extends MainPageObject {
     protected String FOLDER_NAME;
     protected String FOLDER_INPUT;
     protected String OK_BUTTON;
-    protected String CREATE_NEW_BUTTON;
+    protected String ARTICLE_NAME;
 
     private String getFolderByName(String folderName) {
         return FOLDER_NAME.replace("{FOLDER}", folderName);
+    }
+    private String getArticleByName(String folderName) {
+        return ARTICLE_NAME.replace("{FOLDER}", folderName);
     }
 
     public void openFolderByName(String folderName) {
@@ -26,7 +29,7 @@ public abstract class MyListsPageObject extends MainPageObject {
     }
 
     public WebElement waitForArticleToAppear(String articleName) {
-        String articleXpath = getFolderByName(articleName);
+        String articleXpath = getArticleByName(articleName);
         return this.waitForElementPresent((articleXpath), "Can't find necessary  article", 10);
     }
 
@@ -38,13 +41,12 @@ public abstract class MyListsPageObject extends MainPageObject {
 
 
     public boolean waitForArticleToDisAppear(String articleName) {
-        String articleXpath = getFolderByName(articleName);
+        String articleXpath = getArticleByName(articleName);
         return this.waitForElementNotPresent((articleXpath), "Can't find necessary  article", 10);
     }
 
     public void createListAndAddArticle(String nameOfFolder) {
-        this.waitForElementPresentAndClick((CREATE_NEW_BUTTON), "Can't find Create new link", 10);
-        this.waitForElementPresentAndSandKeys((FOLDER_INPUT), nameOfFolder, "Can't find text input", 5);
+        this.waitForElementPresentClearAndSandKeys((FOLDER_INPUT), nameOfFolder, "Can't find text input", 5);
         this.waitForElementPresentAndClick((OK_BUTTON), "Can't find OK", 5);
     }
 
@@ -54,7 +56,7 @@ public abstract class MyListsPageObject extends MainPageObject {
 
     public void swipeArticleToDelete(String articleName) {
         waitForArticleToAppear(articleName);
-        String articleXpath = getFolderByName(articleName);
+        String articleXpath = getArticleByName(articleName);
         this.swipeElementToLeft((articleXpath), "Can't find an article", 5);
    if (Platform.getInstance().isIOS()) {
        this.clickElementToTheRightUpperCorner(articleXpath, "Can't find saved article");

@@ -27,16 +27,14 @@ public class ListTests extends CoreTestCase {
             articlePageObject.saveAndAddArticle();
             myListsPageObject.createListAndAddArticle("Learning programming");
             articlePageObject.closeArticle();
-            articlePageObject.clickClose();
             navigationUI.clickSaved();
             myListsPageObject.openFolderByName("Learning programming");
-        }
-        else {
+        } else {
             articlePageObject.addArticleToMySaved();
             articlePageObject.clickClose();
             articlePageObject.closeArticle();
             navigationUI.clickSaved();
-            }
+        }
         myListsPageObject.swipeArticleToDelete("Java (programming language)");
         assertTrue(myListsPageObject.waitForArticleToDisAppear("Java (programming language)"));
     }
@@ -55,14 +53,16 @@ public class ListTests extends CoreTestCase {
         MyListsPageObject myListsPageObject = MyListsPageObjectFactory.get(driver);
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
         if (Platform.getInstance().isAndroid()) {
-        articlePageObject.saveAndAddArticle();
-        myListsPageObject.createListAndAddArticle(listName);
-        articlePageObject.closeArticle();
-        searchPageObject.clickByArticleWithSubstring(secondArticle);
-        articlePageObject.saveAndAddArticle();
-        myListsPageObject.addArticleToFolder(listName);
-        navigationUI.clickViewLists();}
-        else {
+            articlePageObject.saveAndAddArticle();
+            myListsPageObject.createListAndAddArticle(listName);
+            articlePageObject.closeArticle();
+            searchPageObject.initSearchInput();
+            searchPageObject.typeSearchLine("Java");
+            searchPageObject.clickByArticleWithSubstring(secondArticle);
+            articlePageObject.addArticleToMySaved();
+            myListsPageObject.addArticleToFolder(listName);
+            navigationUI.clickViewLists();
+        } else {
             articlePageObject.addArticleToMySaved();
             articlePageObject.clickClose();
             articlePageObject.closeArticle();

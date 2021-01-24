@@ -1,6 +1,7 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.UI.SearchPageObject;
 import lib.UI.factories.SearchPageObjectFactory;
 import org.junit.Test;
@@ -30,7 +31,9 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.typeSearchLine("Appium");
         searchPageObject.waitForCancelButtonToAppear();
         searchPageObject.clickCancelButton();
-        assertTrue(searchPageObject.waitForCancelButtonToDisappear());
+        if (Platform.getInstance().isAndroid()){
+        assertTrue(searchPageObject.assertResultIsEmpty());}
+        else {assertTrue(searchPageObject.waitForCancelButtonToDisappear());}
     }
 
     @Test
@@ -56,8 +59,9 @@ public class SearchTests extends CoreTestCase {
         int firstResults = searchPageObject.waitAndGetAmountOfFoundArticles();
         assertTrue(firstResults > 0);
         searchPageObject.clickCancelButton();
-        int lastResults = searchPageObject.getAmountOfFoundArticles();
-        assertTrue(lastResults==0);
+        if (Platform.getInstance().isAndroid()){
+            assertTrue(searchPageObject.assertResultIsEmpty());}
+        else {assertTrue(searchPageObject.waitForCancelButtonToDisappear());}
     }
 
     @Test

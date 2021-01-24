@@ -37,12 +37,11 @@ public class Platform {
     private DesiredCapabilities getAndroidDesiredCapabilities() {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setCapability("platformName", "Android");
-        desiredCapabilities.setCapability("deviceName", "TestDevice");
+        desiredCapabilities.setCapability("deviceName", "PixelXL");
         desiredCapabilities.setCapability("platformVersion", "11.0");
-        desiredCapabilities.setCapability("automationName", "Appium");
         desiredCapabilities.setCapability("appPackage", "org.wikipedia");
         desiredCapabilities.setCapability("appActivity", ".main.MainActivity");
-        desiredCapabilities.setCapability("app", "C:\\Anutka\\ProjectsAutotest\\javaAppiumAutomation\\wikipedia.apk");
+        desiredCapabilities.setCapability("app", "/Users/dantilar/Desktop/org.wikipedia.apk");
         return desiredCapabilities;
     }
     private DesiredCapabilities getIOSDesiredCapabilities() {

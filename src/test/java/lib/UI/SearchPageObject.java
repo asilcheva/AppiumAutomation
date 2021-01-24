@@ -14,6 +14,7 @@ public class SearchPageObject extends MainPageObject {
     protected String CANCEL_BUTTON;
     protected String ALL_ARTICLES;
     protected String NO_RESULTS;
+    protected String EMPTY_RESULTS;
     protected String SKIP_BUTTON;
     /*TEMPLATES METHODS*/
     private String getResultSearchElement(String substring) {
@@ -68,5 +69,8 @@ public class SearchPageObject extends MainPageObject {
     }
     public boolean assertNoResultOfSearch() {
         return this.assertElementPresent((NO_RESULTS));
+    }
+    public boolean assertResultIsEmpty() {
+        return this.assertElementPresent((EMPTY_RESULTS));
     }
 }
