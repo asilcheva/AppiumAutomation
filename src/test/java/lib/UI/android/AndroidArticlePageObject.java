@@ -3,9 +3,10 @@ package lib.UI.android;
 import io.appium.java_client.AppiumDriver;
 import lib.UI.ArticlePageObject;
 import lib.UI.MainPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AndroidArticlePageObject extends ArticlePageObject {
-    public AndroidArticlePageObject(AppiumDriver driver){
+    public AndroidArticlePageObject(RemoteWebDriver driver){
        super(driver);
         TITLE = "id:org.wikipedia:id/view_page_title_text";
         FOOTER_ELEMENT = "xpath://*[@text='View page in browser']";

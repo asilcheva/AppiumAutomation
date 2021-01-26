@@ -2,9 +2,10 @@ package lib.UI.android;
 
 import io.appium.java_client.AppiumDriver;
 import lib.UI.SearchPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AndroidSearchPageObject extends SearchPageObject {
-    public AndroidSearchPageObject(AppiumDriver driver) {
+    public AndroidSearchPageObject(RemoteWebDriver driver) {
         super(driver);
         SEARCH_INIT_ELEMENT = "id:org.wikipedia:id/search_container";
         SEARCH_INPUT = "id:org.wikipedia:id/search_src_text";

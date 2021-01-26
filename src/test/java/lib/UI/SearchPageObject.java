@@ -2,9 +2,11 @@ package lib.UI;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class SearchPageObject extends MainPageObject {
-    public SearchPageObject(AppiumDriver driver) {
+    public SearchPageObject(RemoteWebDriver driver) {
         super(driver);
     }
     protected String SEARCH_INIT_ELEMENT;
@@ -30,12 +32,13 @@ public class SearchPageObject extends MainPageObject {
     }
 
     public void typeSearchLine(String searchLine) {
-        this.waitForElementPresentAndSandKeys((SEARCH_INPUT), searchLine, "Can't find search input", 10);
+        this.waitForElementPresentAndSandKeys((SEARCH_INPUT), searchLine, "Can't find search input", 15);
     }
 
     public boolean waitForSearchResult(String substring) {
         String searchResultXpath = getResultSearchElement(substring);
-        return this.waitForElementPresent((searchResultXpath), "Can't find search result", 10).isDisplayed();
+        WebElement element = this.waitForElementPresent((searchResultXpath), "Can't find search result", 2L);
+        return element.isDisplayed();
     }
     public void waitForElementByTitleAndDescription(String title, String description) {
             String searchResultXpath = getResultSearchElementWithDescription(title, description);

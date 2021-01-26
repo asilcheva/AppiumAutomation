@@ -4,11 +4,12 @@ import io.appium.java_client.AppiumDriver;
 import junit.framework.TestCase;
 import lib.UI.WelcomePageObject;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.time.Duration;
 
 public class CoreTestCase extends TestCase {
-    protected AppiumDriver driver;
+    protected RemoteWebDriver driver;
     protected Platform platform;
 
     @Override
@@ -16,8 +17,12 @@ public class CoreTestCase extends TestCase {
         super.setUp();
         this.platform = new Platform();
         driver = Platform.getInstance().getDriver();
-        this.rotateScreenPortrait();
-        this.skipWelcomePageForIOSApp();
+        if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
+            this.rotateScreenPortrait();
+            this.skipWelcomePageForMobileApp();
+        } else {
+            this.openWikiWebPageForMobileWeb();
+        }
     }
 
     @Override
@@ -27,21 +32,39 @@ public class CoreTestCase extends TestCase {
     }
 
     protected void rotateScreenPortrait() {
-        driver.rotate(ScreenOrientation.PORTRAIT);
+        if (driver instanceof AppiumDriver) {
+            AppiumDriver driver = (AppiumDriver) this.driver;
+            driver.rotate(ScreenOrientation.PORTRAIT);
+        } else return;
     }
 
     protected void rotateScreenLandscape() {
-        driver.rotate(ScreenOrientation.LANDSCAPE);
+        if (driver instanceof AppiumDriver) {
+            AppiumDriver driver = (AppiumDriver) this.driver;
+            driver.rotate(ScreenOrientation.LANDSCAPE);
+        } else return;
     }
 
     protected void backgroundApp(int seconds) {
-        driver.runAppInBackground(Duration.ofSeconds(seconds));
+        if (driver instanceof AppiumDriver) {
+            AppiumDriver driver = (AppiumDriver) this.driver;
+            driver.runAppInBackground(Duration.ofSeconds(seconds));
+        } else return;
     }
 
-    private void skipWelcomePageForIOSApp() {
-        if (Platform.getInstance().isIOS()) {
-            WelcomePageObject welcomePageObject = new WelcomePageObject(driver);
-            welcomePageObject.clickSkip();
+    private void skipWelcomePageForMobileApp() {
+        if (driver instanceof AppiumDriver) {
+            AppiumDriver driver = (AppiumDriver) this.driver;
+            if (Platform.getInstance().isIOS()) {
+                WelcomePageObject welcomePageObject = new WelcomePageObject(driver);
+                welcomePageObject.clickSkip();
+            }
+        } else return;
+    }
+
+    protected void openWikiWebPageForMobileWeb() {
+        if (Platform.getInstance().isMW()) {
+            driver.get("https://en.m.wikipedia.org");
         }
     }
 }

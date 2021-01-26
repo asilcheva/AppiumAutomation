@@ -11,8 +11,8 @@ public class SearchTests extends CoreTestCase {
     public void testElementHasText() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Appium");
-        searchPageObject.waitForSearchResult("Appium");
+        searchPageObject.typeSearchLine("Java");
+        searchPageObject.waitForSearchResult("Indonesian island");
     }
     @Test
     public void testElementsHaveTitleAndDescription() {
