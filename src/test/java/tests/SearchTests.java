@@ -14,14 +14,21 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.typeSearchLine("Java");
         searchPageObject.waitForSearchResult("Indonesian island");
     }
+
     @Test
     public void testElementsHaveTitleAndDescription() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
-        searchPageObject.waitForElementByTitleAndDescription("Java", "Island of Indonesia");
-        searchPageObject.waitForElementByTitleAndDescription("JavaScript", "Programming language");
-        searchPageObject.waitForElementByTitleAndDescription("Java (programming language)", "Object-oriented programming language");
+        if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
+            searchPageObject.waitForElementByTitleAndDescription("Java", "Island of Indonesia");
+            searchPageObject.waitForElementByTitleAndDescription("JavaScript", "Programming language");
+            searchPageObject.waitForElementByTitleAndDescription("Java (programming language)", "Object-oriented programming language");
+        } else {
+            searchPageObject.waitForElementByTitleAndDescription("Java", "Indonesian island");
+            searchPageObject.waitForElementByTitleAndDescription("JavaScript", "High-level programming language");
+            searchPageObject.waitForElementByTitleAndDescription("Java (programming language)", "Object-oriented programming language");
+        }
     }
 
     @Test
@@ -31,9 +38,11 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.typeSearchLine("Appium");
         searchPageObject.waitForCancelButtonToAppear();
         searchPageObject.clickCancelButton();
-        if (Platform.getInstance().isAndroid()){
-        assertTrue(searchPageObject.assertResultIsEmpty());}
-        else {assertTrue(searchPageObject.waitForCancelButtonToDisappear());}
+        if (Platform.getInstance().isAndroid()) {
+            assertTrue(searchPageObject.assertResultIsEmpty());
+        } else {
+            assertTrue(searchPageObject.waitForCancelButtonToDisappear());
+        }
     }
 
     @Test
@@ -46,11 +55,12 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine(searchText);
         int results = searchPageObject.waitAndGetAmountOfFoundArticles();
-        assertTrue("There's less than 3 results", results >=3);
-        assertTrue("There's no such article"+firstArticle, searchPageObject.waitForSearchResult(firstArticle));
-        assertTrue("There's no such article"+secondArticle, searchPageObject.waitForSearchResult(secondArticle));
-        assertTrue("There's no such article"+thirdArticle, searchPageObject.waitForSearchResult(thirdArticle));
+        assertTrue("There's less than 3 results", results >= 3);
+        assertTrue("There's no such article" + firstArticle, searchPageObject.waitForSearchResult(firstArticle));
+        assertTrue("There's no such article" + secondArticle, searchPageObject.waitForSearchResult(secondArticle));
+        assertTrue("There's no such article" + thirdArticle, searchPageObject.waitForSearchResult(thirdArticle));
     }
+
     @Test
     public void testSearchCancellation() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
@@ -59,9 +69,11 @@ public class SearchTests extends CoreTestCase {
         int firstResults = searchPageObject.waitAndGetAmountOfFoundArticles();
         assertTrue(firstResults > 0);
         searchPageObject.clickCancelButton();
-        if (Platform.getInstance().isAndroid()){
-            assertTrue(searchPageObject.assertResultIsEmpty());}
-        else {assertTrue(searchPageObject.waitForCancelButtonToDisappear());}
+        if (Platform.getInstance().isAndroid()) {
+            assertTrue(searchPageObject.assertResultIsEmpty());
+        } else {
+            assertTrue(searchPageObject.waitForCancelButtonToDisappear());
+        }
     }
 
     @Test
