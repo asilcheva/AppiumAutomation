@@ -72,7 +72,7 @@ public class ListTests extends CoreTestCase {
             articlePageObject.addArticleToMySaved();
             myListsPageObject.addArticleToFolder(listName);
             navigationUI.clickViewLists();
-        } else {
+        } else if (Platform.getInstance().isIOS()){
             articlePageObject.addArticleToMySaved();
             articlePageObject.clickClose();
             articlePageObject.closeArticle();
@@ -80,6 +80,20 @@ public class ListTests extends CoreTestCase {
             searchPageObject.clickByArticleWithSubstring(secondArticle);
             articlePageObject.addArticleToMySaved();
             articlePageObject.closeArticle();
+            navigationUI.clickSaved();
+        }
+        else {
+            articlePageObject.addArticleToMySaved();
+            AuthorizationPageObject authorizationPageObject = new AuthorizationPageObject(driver);
+            authorizationPageObject.clickAuthButton();
+            authorizationPageObject.enterLogin(login, password);
+            authorizationPageObject.submitForm();
+            articlePageObject.waitForTitleElement();
+            searchPageObject.initSearchInput();
+            searchPageObject.typeSearchLine("Java");
+            searchPageObject.clickByArticleWithSubstring(secondArticle);
+            articlePageObject.addArticleToMySaved();
+            navigationUI.openNavigation();
             navigationUI.clickSaved();
         }
         myListsPageObject.swipeArticleToDelete(secondArticle);
