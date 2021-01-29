@@ -1,14 +1,19 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.UI.SearchPageObject;
 import lib.UI.factories.SearchPageObjectFactory;
 import org.junit.Assert;
 import org.junit.Test;
-
+@Epic("Tests for article")
 public class SearchTests extends CoreTestCase {
     @Test
+    @Features(value = {@Feature(value = "Search"), @Feature(value = "Article")})
+    @DisplayName("Search for article title")
+    @Severity(SeverityLevel.BLOCKER)
     public void testElementHasText() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -17,6 +22,9 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    @DisplayName("Search for article title and description")
+    @Features(value = {@Feature(value = "Search"), @Feature(value = "Article")})
+    @Severity(SeverityLevel.CRITICAL)
     public void testElementsHaveTitleAndDescription() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -33,6 +41,9 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    @DisplayName("Cancel button click")
+    @Feature(value = "Search")
+    @Severity(SeverityLevel.MINOR)
     public void testCancelButton() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -47,6 +58,9 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    @DisplayName("Search result assertion")
+    @Feature(value = "Search")
+    @Severity(SeverityLevel.CRITICAL)
     public void testAmountOfSearch() {
         String searchText = "Appium";
         String firstArticle = "Appium";
@@ -63,6 +77,9 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    @DisplayName("Search result and Cancel button assertion")
+    @Feature(value = "Search")
+    @Severity(SeverityLevel.MINOR)
     public void testSearchCancellation() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -78,6 +95,9 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    @DisplayName("Incorrect search input assertion")
+    @Feature(value = "Search")
+    @Severity(SeverityLevel.MINOR)
     public void testAmountOfEmptySearch() {
         String searchText = "asdfgqwe";
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);

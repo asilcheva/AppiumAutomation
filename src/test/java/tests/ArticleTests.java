@@ -28,7 +28,9 @@ public class ArticleTests extends CoreTestCase {
     }
 
     @Test
-    @DisplayName("Swipe article to the footer")
+    @Features(value = {@Feature(value = "Search"), @Feature(value = "Article")})
+    @DisplayName("Open article and assert article title is present")
+    @Severity(SeverityLevel.BLOCKER)
     public void testAssertTitle() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -39,6 +41,9 @@ public class ArticleTests extends CoreTestCase {
     }
 
     @Test
+    @DisplayName("Swipe article to the footer")
+    @Feature(value = "Search")
+    @Severity(SeverityLevel.CRITICAL)
     public void testSwipeArticle() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();

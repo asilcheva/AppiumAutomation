@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.UI.*;
@@ -9,11 +11,14 @@ import lib.UI.factories.NavigationUIFactory;
 import lib.UI.factories.SearchPageObjectFactory;
 import org.junit.Assert;
 import org.junit.Test;
-
+@Epic("Tests for user profile")
 public class ListTests extends CoreTestCase {
     private String login= "TestAutomationAn";
     private String password= "/'].;[,lp";
     @Test
+    @Features(value = {@Feature(value = "Search"), @Feature(value = "Article"), @Feature(value = "List"), @Feature(value = "Authorization")})
+    @DisplayName("Add and delete article from saved list")
+    @Severity(SeverityLevel.MINOR)
     public void testSaveFirstArticleToMyList() throws InterruptedException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -51,6 +56,9 @@ public class ListTests extends CoreTestCase {
     }
 
     @Test
+    @DisplayName("Add 2 articles and delete one from saved list")
+    @Features(value = {@Feature(value = "Search"), @Feature(value = "Article"), @Feature(value = "List"), @Feature(value = "Authorization")})
+    @Severity(SeverityLevel.MINOR)
     public void testSaveTwoArticlesAndDeleteOne() throws InterruptedException {
         String listName = "Learning programming";
         String firstArticle = "Java (programming language)";
