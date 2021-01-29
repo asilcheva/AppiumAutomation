@@ -6,6 +6,7 @@ import lib.UI.ArticlePageObject;
 import lib.UI.SearchPageObject;
 import lib.UI.factories.ArticlePageObjectFactory;
 import lib.UI.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ChangeAppConditionTests extends CoreTestCase {
@@ -23,10 +24,10 @@ public class ChangeAppConditionTests extends CoreTestCase {
         String beforeAttribute = articlePageObject.waitAndGetArticleTitle();
         rotateScreenLandscape();
         String afterFirstRotationAttribute = articlePageObject.waitAndGetArticleTitle();
-        assertEquals("Text is different", beforeAttribute, afterFirstRotationAttribute);
+        Assert.assertEquals("Text is different", beforeAttribute, afterFirstRotationAttribute);
         rotateScreenPortrait();
         String afterSecondRotationAttribute = articlePageObject.waitAndGetArticleTitle();
-        assertEquals("Text is different", beforeAttribute, afterSecondRotationAttribute);
+        Assert.assertEquals("Text is different", beforeAttribute, afterSecondRotationAttribute);
     }
     @Test
     public void testRunFromBackground() {
@@ -39,6 +40,6 @@ public class ChangeAppConditionTests extends CoreTestCase {
         searchPageObject.typeSearchLine(searchText);
         searchPageObject.waitForSearchResult(searchText);
         backgroundApp(10);
-        searchPageObject.waitForSearchResult(searchText);
+        Assert.assertTrue(searchPageObject.waitForSearchResult(searchText));
     }
 }

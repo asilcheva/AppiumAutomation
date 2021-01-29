@@ -7,6 +7,7 @@ import lib.UI.factories.ArticlePageObjectFactory;
 import lib.UI.factories.MyListsPageObjectFactory;
 import lib.UI.factories.NavigationUIFactory;
 import lib.UI.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ListTests extends CoreTestCase {
@@ -89,6 +90,7 @@ public class ListTests extends CoreTestCase {
             authorizationPageObject.enterLogin(login, password);
             authorizationPageObject.submitForm();
             articlePageObject.waitForTitleElement();
+            articlePageObject.addArticleToMySaved();
             searchPageObject.initSearchInput();
             searchPageObject.typeSearchLine("Java");
             searchPageObject.clickByArticleWithSubstring(secondArticle);
@@ -97,6 +99,6 @@ public class ListTests extends CoreTestCase {
             navigationUI.clickSaved();
         }
         myListsPageObject.swipeArticleToDelete(secondArticle);
-        assertTrue(myListsPageObject.waitForArticleToAppear(firstArticle).isDisplayed());
+        Assert.assertTrue(myListsPageObject.waitForArticleToAppear(firstArticle).isDisplayed());
     }
 }

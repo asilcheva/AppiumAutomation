@@ -65,7 +65,7 @@ public class Platform {
         desiredCapabilities.setCapability("app", "/Users/dantilar/Documents/Wikipedia.app");
         return desiredCapabilities;
     }
-    private String getPlatform() {
+    public String getPlatform() {
         return System.getenv("PLATFORM");
     }
     private boolean isPlatform(String myPlatform){

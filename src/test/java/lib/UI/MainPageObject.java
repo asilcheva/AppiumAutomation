@@ -4,7 +4,9 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
+import io.qameta.allure.Attachment;
 import lib.Platform;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.rules.Timeout;
 import org.openqa.selenium.*;
@@ -12,6 +14,10 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -63,6 +69,7 @@ public class MainPageObject {
         webDriverWait.withMessage(errorMessage);
         return webDriverWait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
+
     public WebElement waitForElementPresentAndClickable(String locator, String errorMessage, long timeout) {
         By by = this.getLocatorByString(locator);
         WebDriverWait webDriverWait = new WebDriverWait(driver, timeout);
@@ -109,7 +116,7 @@ public class MainPageObject {
     }
 
     public boolean isElementPresent(String locator) {
-        return getAmountOfElement(locator)>0;
+        return getAmountOfElement(locator) > 0;
     }
 
     public int getAmountOfElement(String locator) {
@@ -212,6 +219,7 @@ public class MainPageObject {
             }
         }
     }
+
     public void tryToClickElementWithFewAttempts(String locator, String eroorMessage, int amountOfAttempts) {
         int currentAttempts = 0;
         boolean needMoreAttempts = true;
@@ -226,5 +234,29 @@ public class MainPageObject {
             }
             ++currentAttempts;
         }
+    }
+
+    public String takeScreenshot(String name) {
+        TakesScreenshot ts = (TakesScreenshot) this.driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        String path = System.getProperty("user.dir") + "/" + name + "_screenshot.png";
+        try {
+            FileUtils.copyFile(source, new File(path));
+            System.out.println("The screenshot was taken " + path);
+        } catch (Exception e) {
+            System.out.println("Can't take screenshot"+e.getMessage());
+        }
+        return path;
+    }
+    @Attachment
+    public static byte[] screenshot(String path) {
+        byte[] bytes = new byte[0];
+        try {
+            bytes = Files.readAllBytes(Paths.get(path));
+        }
+        catch (Exception e){
+            System.out.println("Can't get bytes from screenshot "+e.getMessage());
+        }
+        return bytes;
     }
 }

@@ -1,6 +1,7 @@
 package lib.UI;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -21,6 +22,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         super(driver);
     }
 
+    @Step("Wait for title element")
     public WebElement waitForTitleElement() {
         return this.waitForElementPresent((TITLE), "Can't find an article", 5);
     }
@@ -32,8 +34,9 @@ abstract public class ArticlePageObject extends MainPageObject {
     public void openFolderByName(String folderName) {
         this.waitForElementPresentAndClick((getFolderByName(folderName)), "Can't find necessary list", 5);
     }
-
+    @Step("Wait for title element and get it")
     public String waitAndGetArticleTitle() {
+        screenshot(this.takeScreenshot("article_title"));
         if (Platform.getInstance().isAndroid()) {
             return waitForTitleElement().getAttribute("text");
         } else if (Platform.getInstance().isIOS()) {
@@ -45,7 +48,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         this.waitForTitleElement();
         return this.assertElementPresent((TITLE));
     }
-
+    @Step("Swipe article to footer")
     public void swipeToFooter() {
         if (Platform.getInstance().isAndroid()) {
             this.swipeUpToFindTheElement((FOOTER_ELEMENT), "Can't find footer", 5);
@@ -55,23 +58,23 @@ abstract public class ArticlePageObject extends MainPageObject {
             scrollWebPageTillElementNotVisible(FOOTER_ELEMENT, "Can't find end of article", 40);
         }
     }
-
+    @Step("Click Save button, click Ok button")
     public void saveAndAddArticle() {
         this.waitForElementPresentAndClick((SAVE_BUTTON), "Can't find article menu button", 10);
         this.waitForElementPresentAndClick((GOT_IT_BUTTON), "", 10);
     }
-
+    @Step("Click Back button")
     public void closeArticle() {
         this.waitForElementPresentAndClick((BACK), "Can't find Back button", 10);
     }
-
+    @Step("Click Close button")
     public void clickClose() {
         if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
             this.waitForElementPresentAndClick((CLOSE_BUTTON), "Can't find Close button", 3);
             this.waitForElementNotPresent(CLOSE_BUTTON, "Prompt is still here", 3);
         } else return;
     }
-
+    @Step("Click Save button")
     public void addArticleToMySaved() throws InterruptedException {
         if (Platform.getInstance().isMW()) {
             Thread.sleep(500);
@@ -81,7 +84,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         this.waitForElementPresentAndClickable(SAVE_BUTTON, "Can't find add to list button", 20);
         this.waitForElementPresentAndClick(SAVE_BUTTON, "Can't find add to list button", 20);
     }
-
+    @Step("Click option remove from the list")
     public void removeArticleFromSavedIfItAdded() {
         if (this.isElementPresent(OPTIONS_REMOVE_FROM_MYLIST_BUTTON)) {
             this.waitForElementPresentAndClick(OPTIONS_REMOVE_FROM_MYLIST_BUTTON, "Can't click button remove", 5);

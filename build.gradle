@@ -1,23 +1,46 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "io.qameta.allure:allure-gradle:<latest>"
+    }
+}
 plugins {
+    id "io.qameta.allure" version "2.3"
     id 'java'
+}
+apply plugin: 'io.qameta.allure'
+
+allure {
+    autoconfigure = true
+    aspectjweaver = true
+    version = '2.4.1'
 }
 
 group 'org.example'
 version '1.0-SNAPSHOT'
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+//    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
     testImplementation('junit:junit:4.13')
     // https://mvnrepository.com/artifact/io.appium/java-client
     compile group: 'io.appium', name: 'java-client', version: '7.4.0'
-    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server
+//     https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server
     compile group: 'org.seleniumhq.selenium', name: 'selenium-server', version: '3.141.59'
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjrt
+    compile group: 'org.aspectj', name: 'aspectjrt', version: '1.9.6'
+// https://mvnrepository.com/artifact/org.slf4j/slf4j-nop
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    compile group: 'commons-io', name: 'commons-io', version: '2.8.0'
+
+    testCompile group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.30'
+
 
 }
-
-//test {
-    //useJUnitPlatform()
-//}

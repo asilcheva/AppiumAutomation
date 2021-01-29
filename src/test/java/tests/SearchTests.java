@@ -4,6 +4,7 @@ import lib.CoreTestCase;
 import lib.Platform;
 import lib.UI.SearchPageObject;
 import lib.UI.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class SearchTests extends CoreTestCase {
@@ -12,7 +13,7 @@ public class SearchTests extends CoreTestCase {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
-        searchPageObject.waitForSearchResult("Indonesian island");
+        searchPageObject.waitForSearchResult("Java");
     }
 
     @Test
@@ -39,9 +40,9 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.waitForCancelButtonToAppear();
         searchPageObject.clickCancelButton();
         if (Platform.getInstance().isAndroid()) {
-            assertTrue(searchPageObject.assertResultIsEmpty());
+            Assert.assertTrue(searchPageObject.assertResultIsEmpty());
         } else {
-            assertTrue(searchPageObject.waitForCancelButtonToDisappear());
+            Assert.assertTrue(searchPageObject.waitForCancelButtonToDisappear());
         }
     }
 
@@ -55,10 +56,10 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine(searchText);
         int results = searchPageObject.waitAndGetAmountOfFoundArticles();
-        assertTrue("There's less than 3 results", results >= 3);
-        assertTrue("There's no such article" + firstArticle, searchPageObject.waitForSearchResult(firstArticle));
-        assertTrue("There's no such article" + secondArticle, searchPageObject.waitForSearchResult(secondArticle));
-        assertTrue("There's no such article" + thirdArticle, searchPageObject.waitForSearchResult(thirdArticle));
+        Assert.assertTrue("There's less than 3 results", results >= 3);
+        Assert.assertTrue("There's no such article" + firstArticle, searchPageObject.waitForSearchResult(firstArticle));
+        Assert.assertTrue("There's no such article" + secondArticle, searchPageObject.waitForSearchResult(secondArticle));
+        Assert.assertTrue("There's no such article" + thirdArticle, searchPageObject.waitForSearchResult(thirdArticle));
     }
 
     @Test
@@ -67,12 +68,12 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Appium");
         int firstResults = searchPageObject.waitAndGetAmountOfFoundArticles();
-        assertTrue(firstResults > 0);
+        Assert.assertTrue(firstResults > 0);
         searchPageObject.clickCancelButton();
         if (Platform.getInstance().isAndroid()) {
-            assertTrue(searchPageObject.assertResultIsEmpty());
+            Assert.assertTrue(searchPageObject.assertResultIsEmpty());
         } else {
-            assertTrue(searchPageObject.waitForCancelButtonToDisappear());
+            Assert.assertTrue(searchPageObject.waitForCancelButtonToDisappear());
         }
     }
 
@@ -83,6 +84,5 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine(searchText);
         searchPageObject.waitForEmptyResult();
-        assertTrue(searchPageObject.assertNoResultOfSearch());
     }
 }
